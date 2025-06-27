@@ -1,5 +1,2 @@
-# Ignorar a pasta de dependências do backend
 medlab-backend/node_modules/
-
-# Ignorar o arquivo do banco de dados do backend
 medlab-backend/medlab.db
