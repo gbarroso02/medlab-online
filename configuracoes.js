@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     async function carregarDadosIniciais() {
         try {
             const [resInsumos, resUsuarios] = await Promise.all([
-                fetch('https://medlab-sistema-completo.onrender.com/api/insumos'),
-                fetch('https://medlab-sistema-completo.onrender.com/api/usuarios')
+                fetch('https://medlab-sistema-completo.https://medlab-api-final.onrender.com.com/api/insumos'),
+                fetch('https://medlab-sistema-completo.https://medlab-api-final.onrender.com.com/api/usuarios')
             ]);
             const dataInsumos = await resInsumos.json();
             const dataUsuarios = await resUsuarios.json();
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             const unidadesParaBuscar = unidades.filter(u => u.tipo_acesso && u.tipo_acesso.includes('unidade'));
             for (const unidade of unidadesParaBuscar) {
-                const res = await fetch(`https://medlab-sistema-completo.onrender.com/api/unidade/${unidade.id}/insumos`);
+                const res = await fetch(`https://medlab-sistema-completo.https://medlab-api-final.onrender.com.com/api/unidade/${unidade.id}/insumos`);
                 const data = await res.json();
                 if (data.success) {
                     associacoesAtuais[unidade.id] = data.data.map(i => ({ insumoId: i.id, minimo: i.estoque_minimo_unidade }));
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 qtdMinima: parseInt(inputQtdMinimaInsumoConfig.value, 10)
             };
             try {
-                const response = await fetch('https://medlab-sistema-completo.onrender.com/api/insumos', {
+                const response = await fetch('https://medlab-sistema-completo.https://medlab-api-final.onrender.com.com/api/insumos', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(novoInsumo)
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                  return showNotification('Erro!', 'Todos os campos são obrigatórios.', false);
             }
             try {
-                const response = await fetch('https://medlab-sistema-completo.onrender.com/api/usuarios', {
+                const response = await fetch('https://medlab-sistema-completo.https://medlab-api-final.onrender.com.com/api/usuarios', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(novaUnidade)
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const usuarioNome = deleteButton.dataset.nome;
                 if (confirm(`Tem certeza que deseja excluir "${usuarioNome}"? Esta ação não pode ser desfeita.`)) {
                     try {
-                        const response = await fetch(`https://medlab-sistema-completo.onrender.com/api/usuarios/${usuarioId}`, { method: 'DELETE' });
+                        const response = await fetch(`https://medlab-sistema-completo.https://medlab-api-final.onrender.com.com/api/usuarios/${usuarioId}`, { method: 'DELETE' });
                         const result = await response.json();
                         if (result.success) {
                             showNotification('Sucesso!', result.message);
