@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel da Unidade - MedLab Gestão de Insumos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c5c5c5; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #a5a5a5; }
+        .modal { transition: opacity 0.25s ease; }
+        .modal-content { transition: transform 0.25s ease; }
+        .insumo-item-solicitacao {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem; /* py-2 px-3 */
+            border-radius: 0.375rem; /* rounded-md */
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+        }
+         .insumo-item-solicitacao:hover {
+            background-color: #f9fafb; /* hover:bg-gray-50 */
+        }
+        .insumo-item-solicitacao input[type="checkbox"] {
+            margin-right: 0.75rem; /* mr-3 */
+        }
+
+        /* Cores principais do MedLab */
+        :root {
+            --medlab-red: #D92325; 
+            --medlab-red-darker: #B81D1F;
+            --medlab-yellow: #F2D500; 
+        }
+        .btn-primary-red {
+            background-color: var(--medlab-red);
+        }
+        .btn-primary-red:hover {
+            background-color: var(--medlab-red-darker);
+        }
+        .focus-ring-primary-red:focus {
+            --tw-ring-color: var(--medlab-red);
+            border-color: var(--medlab-red) !important; /* Força a cor da borda no foco */
+        }
+        .text-primary-red {
+            color: var(--medlab-red);
+        }
+        .checkbox-primary-red:checked {
+            background-color: var(--medlab-red);
+            border-color: var(--medlab-red);
+        }
+        .input-focus-primary-red:focus {
+             border-color: var(--medlab-red);
+             box-shadow: 0 0 0 2px var(--medlab-red); /* Simula ring do Tailwind */
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Cabeçalho -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <!-- Logo MedLab Adicionado -->
+                    <img src="LOGO MEDLAB (2).png" alt="Logo MedLab" class="h-10 w-auto mr-3"
+                         onerror="this.onerror=null; this.src='https://placehold.co/150x40/D92325/FFFFFF?text=MedLab&font=Inter'; this.alt='Logo MedLab Placeholder';">
+                    <h1 class="text-xl font-semibold text-gray-800">Painel da Unidade: <span id="nome-unidade-logada" class="font-bold text-primary-red">Carregando...</span></h1>
+                </div>
+                <a href="unidade_login.html" id="logout-button" class="text-sm font-medium text-white bg-gray-700 hover:bg-gray-800 px-4 py-2 rounded-lg transition-colors duration-150">
+                    Sair
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            <!-- Card: Stock da Unidade e Atualização -->
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-xl font-semibold text-gray-800 border-b pb-3 mb-4">1. Stock Atual da Unidade</h2>
+                <div id="stock-unidade-container" class="max-h-96 overflow-y-auto space-y-3 custom-scrollbar pr-2">
+                    <p class="text-gray-500 italic">A carregar stock da unidade...</p>
+                    <!-- Stock da unidade será listado aqui -->
+                </div>
+            </div>
+
+            <!-- Card: Solicitar Insumos -->
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-xl font-semibold text-gray-800 border-b pb-3 mb-4">2. Solicitar Insumos</h2>
+                <form id="form-solicitar-insumo" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Selecione os Insumos:</label>
+                        <div id="lista-insumos-para-solicitacao" class="space-y-2 max-h-72 overflow-y-auto custom-scrollbar border border-gray-200 p-3 rounded-md">
+                            <p class="text-gray-500 italic">Carregando insumos disponíveis...</p>
+                            <!-- Lista de insumos com checkboxes será inserida aqui pelo JavaScript -->
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full btn-primary-red text-white font-medium py-2 px-4 rounded-md shadow-sm transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus-ring-primary-red">
+                        Fazer Pedido(s)
+                    </button>
+                </form>
+                <hr class="my-6">
+                <h3 class="text-lg font-medium text-gray-700 mb-3">Minhas Solicitações Recentes:</h3>
+                <ul id="lista-minhas-solicitacoes" class="max-h-60 overflow-y-auto space-y-2 custom-scrollbar pr-2">
+                    <li class="text-gray-500 italic">Nenhuma solicitação feita recentemente.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Notificação -->
+    <div id="notification-modal-unidade" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-[60] modal hidden" aria-labelledby="modal-title-unidade" role="dialog" aria-modal="true">
+        <div class="modal-content bg-white p-6 rounded-lg shadow-xl transform transition-all sm:max-w-sm sm:w-full">
+            <div class="text-center">
+                <div id="modal-icon-container-unidade" class="mx-auto flex items-center justify-center h-12 w-12 rounded-full"> <!-- Cor do BG será via JS -->
+                    <!-- Ícone será inserido aqui pelo JS -->
+                </div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-3" id="modal-title-text-unidade">Sucesso!</h3>
+                <div class="mt-2"><p class="text-sm text-gray-500" id="modal-message-text-unidade">Operação concluída.</p></div>
+            </div>
+            <div class="mt-5 sm:mt-6">
+                <button type="button" id="modal-close-button-unidade" class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 btn-primary-red text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus-ring-primary-red sm:text-sm">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="unidade_painel.js"></script>
+</body>
+</html>
