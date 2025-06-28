@@ -1,15 +1,15 @@
-const { Pool } = require('pg');
+require('dotenv').config();
+const { Pool, native } = require('pg'); // Importamos o 'native'
 
-// Usamos uma variável de ambiente para o endereço, para manter o segredo seguro
 const connectionString = process.env.DATABASE_URL;
 
 const pool = new Pool({
   connectionString: connectionString,
-  // Esta configuração é importante para o deploy na Render
+  // Esta configuração usa o conector nativo se disponível, o que é mais robusto
+  Client: native ? native.Client : undefined, 
   ssl: {
     rejectUnauthorized: false
   }
 });
 
-// Exportamos a conexão direta
 module.exports = pool;
