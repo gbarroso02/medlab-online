@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // --- FUNÇÃO PRINCIPAL DE CARREGAMENTO ---
     async function carregarDadosDoPainel() {
         try {
-            const urlInsumos = `https://medlab-sistema-completo.onrender.com/api/unidade/${unidadeLogada.id}/insumos`;
+            const urlInsumos = `https://medlab-api-final.onrender.com/api/unidade/${unidadeLogada.id}/insumos`;
             // --- PONTO DE VERIFICAÇÃO 2 ---
             console.log("Fazendo pergunta ao servidor no endereço:", urlInsumos);
 
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
             
             // Carregando solicitações (separadamente para simplificar)
-            const resSolicitacoes = await fetch(`https://medlab-sistema-completo.onrender.com/api/solicitacoes/${unidadeLogada.login}`);
+            const resSolicitacoes = await fetch(`https://medlab-api-final.onrender.com/api/solicitacoes/${unidadeLogada.login}`);
             const resultSolicitacoes = await resSolicitacoes.json();
             if (resultSolicitacoes.success) {
                 minhasSolicitacoes = resultSolicitacoes.data;
